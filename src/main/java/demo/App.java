@@ -24,10 +24,10 @@ public class App {
     private static final String containerId = "demo20210321_1.0.0-SNAPSHOT";
 
     public void initialize() {
-        System.setProperty("org.kie.server.json.format.date", "true");
+        // to match server's config as needed: System.setProperty("org.kie.server.json.format.date", "true");
         conf = KieServicesFactory.newRestConfiguration(URL, USER, PASSWORD);
         conf.setMarshallingFormat(FORMAT);
-        conf.addExtraClasses(new HashSet<>(Arrays.asList(com.myspace.demo20210321.ReservationDTO.class)));
+        conf.addExtraClasses(new HashSet<>(Arrays.asList(com.myspace.demo20210321.Reservation.class)));
         kieServicesClient = KieServicesFactory.newKieServicesClient(conf);
     }
 
@@ -35,9 +35,9 @@ public class App {
         initialize();
         DMNServicesClient dmnClient = kieServicesClient.getServicesClient(DMNServicesClient.class);
         DMNContext dmnContext = dmnClient.newContext();
-        dmnContext.set("reservation", new com.myspace.demo20210321.ReservationDTO(LocalDate.of(2021, 3, 1),
-                                                                                  LocalDate.of(2021, 3, 8),
-                                                                                  Arrays.asList("John", "Alice")));
+        dmnContext.set("reservation", new com.myspace.demo20210321.Reservation(LocalDate.of(2021, 3, 1),
+                                                                                LocalDate.of(2021, 3, 8),
+                                                                                Arrays.asList("John", "Alice")));
         run(dmnClient, dmnContext);
     }
 
